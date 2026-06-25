@@ -16,6 +16,7 @@ function App() {
   
   const [blurAmount, setBlurAmount] = useState(15);
   const [logoScale, setLogoScale] = useState(1.0);
+  const [logoOffsetY, setLogoOffsetY] = useState(0);
   const [logoOffsetX, setLogoOffsetX] = useState(0);
   const [showOutline, setShowOutline] = useState(false);
   const [outlineColor, setOutlineColor] = useState('#ffffff');
