@@ -17,6 +17,7 @@ function App() {
   const [blurAmount, setBlurAmount] = useState(15);
   const [logoScale, setLogoScale] = useState(1.0);
   const [logoOffsetY, setLogoOffsetY] = useState(0);
+  const [logoOffsetX, setLogoOffsetX] = useState(0);
 
   const handleBackgroundUpload = async (file) => {
     setBackgroundFile(file);
@@ -131,6 +132,20 @@ function App() {
               onChange={(e) => setLogoOffsetY(e.target.value)} 
             />
           </div>
+          
+          <div className="control-group">
+            <div className="control-header">
+              <label>Logo Horizontal Position: {logoOffsetX}%</label>
+            </div>
+            <input 
+              type="range" 
+              min="-100" 
+              max="100" 
+              step="1"
+              value={logoOffsetX} 
+              onChange={(e) => setLogoOffsetX(e.target.value)} 
+            />
+          </div>
         </div>
       )}
 
@@ -140,6 +155,7 @@ function App() {
         blurAmount={blurAmount}
         logoScale={logoScale}
         logoOffsetY={logoOffsetY}
+        logoOffsetX={logoOffsetX}
       />
       
       {isProcessing && (

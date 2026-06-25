@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Download } from 'lucide-react';
 
-export default function CanvasPreview({ backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY = 0 }) {
+export default function CanvasPreview({ backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY = 0, logoOffsetX = 0 }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -37,12 +37,14 @@ export default function CanvasPreview({ backgroundImage, processedLogo, blurAmou
           const logoWidth = logoImg.width * scaleRatio;
           const logoHeight = logoImg.height * scaleRatio;
           
-          const logoX = (canvas.width - logoWidth) / 2;
+          const baseLogoX = (canvas.width - logoWidth) / 2;
           const baseLogoY = (canvas.height - logoHeight) / 2;
           
-          // logoOffsetY is from -100 to 100 percentage
-          // Map to pixel offset where 100 is half the canvas height down
+          // Offsets map to pixel values where 100% is half the canvas size
+          const xOffsetPixels = (logoOffsetX / 100) * (canvas.width / 2);
           const yOffsetPixels = (logoOffsetY / 100) * (canvas.height / 2);
+          
+          const logoX = baseLogoX + xOffsetPixels;
           const logoY = baseLogoY + yOffsetPixels;
           
           // Draw logo centered
@@ -52,7 +54,7 @@ export default function CanvasPreview({ backgroundImage, processedLogo, blurAmou
       }
     };
     bgImg.src = backgroundImage;
-  }, [backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY]);
+  }, [backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY, logoOffsetX]);
 
   const handleDownload = () => {
     const canvas = canvasRef.current;
