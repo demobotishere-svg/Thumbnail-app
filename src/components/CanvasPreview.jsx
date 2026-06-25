@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Download } from 'lucide-react';
 
-export default function CanvasPreview({ backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY = 0, logoOffsetX = 0 }) {
+export default function CanvasPreview({ backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY = 0, logoOffsetX = 0, showOutline = false, outlineColor = '#ffffff' }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -48,13 +48,27 @@ export default function CanvasPreview({ backgroundImage, processedLogo, blurAmou
           const logoY = baseLogoY + yOffsetPixels;
           
           // Draw logo centered
+          if (showOutline) {
+            // Apply multiple strong drop shadows to create a thick outline/glow effect
+            ctx.shadowColor = outlineColor;
+            ctx.shadowBlur = 15;
+            ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
+            
+            ctx.shadowBlur = 5;
+            ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
+            
+            // Reset shadows for final crisp logo layer
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+          }
+          
           ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
         };
         logoImg.src = processedLogo;
       }
     };
     bgImg.src = backgroundImage;
-  }, [backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY, logoOffsetX]);
+  }, [backgroundImage, processedLogo, blurAmount, logoScale, logoOffsetY, logoOffsetX, showOutline, outlineColor]);
 
   const handleDownload = () => {
     const canvas = canvasRef.current;

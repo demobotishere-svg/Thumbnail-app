@@ -16,8 +16,10 @@ function App() {
   
   const [blurAmount, setBlurAmount] = useState(15);
   const [logoScale, setLogoScale] = useState(1.0);
-  const [logoOffsetY, setLogoOffsetY] = useState(0);
   const [logoOffsetX, setLogoOffsetX] = useState(0);
+  const [showOutline, setShowOutline] = useState(false);
+  const [outlineColor, setOutlineColor] = useState('#ffffff');
+
 
   const handleBackgroundUpload = async (file) => {
     setBackgroundFile(file);
@@ -146,6 +148,32 @@ function App() {
               onChange={(e) => setLogoOffsetX(e.target.value)} 
             />
           </div>
+          
+          <div className="control-group">
+            <div className="control-header">
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input 
+                  type="checkbox" 
+                  checked={showOutline}
+                  onChange={(e) => setShowOutline(e.target.checked)}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                />
+                Enable Logo Outline
+              </label>
+            </div>
+            
+            {showOutline && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.5rem' }}>
+                <input 
+                  type="color" 
+                  value={outlineColor}
+                  onChange={(e) => setOutlineColor(e.target.value)}
+                  style={{ width: '40px', height: '40px', padding: '0', border: 'none', borderRadius: '8px', cursor: 'pointer', background: 'transparent' }}
+                />
+                <span style={{ color: 'var(--text-secondary)' }}>Choose Outline Color</span>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -156,6 +184,8 @@ function App() {
         logoScale={logoScale}
         logoOffsetY={logoOffsetY}
         logoOffsetX={logoOffsetX}
+        showOutline={showOutline}
+        outlineColor={outlineColor}
       />
       
       {isProcessing && (
